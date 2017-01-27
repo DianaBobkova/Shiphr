@@ -24,46 +24,46 @@ public class main {
         String decryptedtext = "";
 
 
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
-        LinkedHashSet<String> hashSet = new LinkedHashSet<>();
-        LinkedHashSet<String> nevhashSet = new LinkedHashSet<>();
+        // HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+        //LinkedHashSet<String> hashSet = new LinkedHashSet<>();
+        //LinkedHashSet<String> nevhashSet = new LinkedHashSet<>();
 
-        int m = ABC.length();
-        for (int i = 0; i <key.length() ; i++) {
-           if (key.charAt(i)!=' '){
-                hashSet.add(String.valueOf(key.charAt(i)));
-            }
-        }
-        printSet(hashSet);
-        for (int i = 0; i <ABC.length() ; i++) {
-            if (!hashSet.contains(ABC.charAt(i))){
-                nevhashSet.add(String.valueOf(ABC.charAt(i)));
-            }
+        ArrayList<Character> alpList = new ArrayList<>();
+        for (char c : ABC.toCharArray()) {
+            alpList.add(c);
         }
 
-        // Шифрование методом замены (код Цезаря)
-   //     for (int i = 0; i < text.length(); i++) {
+        ArrayList<Character> keyList = new ArrayList<>();
+        for (char k : key.toCharArray()) {
+            if (!keyList.contains(k)) {
+                keyList.add(k);
+            }
+        }
+        for (char alp : ABC.toCharArray()) {
+            if (!keyList.contains(alp)) {
+                keyList.add(alp);
+            }
+        }
 
-    //        ciphertext += ABC.charAt(B);
-     //   }
+        for (int i = 0; i < text.length(); i++) {
+            for (int j = 0; j < alpList.size(); j++) {
+                if (text.charAt(i) == alpList.get(j)) {
+                    ciphertext += keyList.get(j);
+                }
+            }
+        }
+
+        for (int i = 0; i < ciphertext.length(); i++) {
+            for (int j = 0; j < keyList.size(); j++) {
+                if (ciphertext.charAt(i) == keyList.get(j)) {
+                    decryptedtext += alpList.get(j);
+                }
+            }
+        }
 
 
-        printWriter.println(ciphertext);
-        printWriter.println(decryptedtext);
+        printWriter.println("криптограмма: " + ciphertext);
+        printWriter.println("открытый текст: " + decryptedtext);
         printWriter.flush();
     }
-
-    private static void printSet(LinkedHashSet<String> hashSet) {
-        for (Iterator iter = hashSet.iterator(); iter.hasNext();) {
-            System.out.print(iter.next() + ", ");
-        }
-        System.out.println(" ");
-    }
-    private static void printNevSet(LinkedHashSet<String> nevhashSet) {
-        Iterator iterator = nevhashSet.iterator();
-        while (iterator.hasNext()){
-            System.out.print(iterator.next());
-        }
-    }
-
 }
